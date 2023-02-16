@@ -15,14 +15,15 @@ const userSchema = new mongoose.Schema({
 
 })
 
-// userSchema.pre('save',async ()=>{
+// userSchema.pre('save',async (next)=>{
 //     user = this;
 //     console.log("just Before Sign Up password : ",user.password);
-//     console.log("after save")
+//     console.log("after save",user)
 
 //     if(!user.isModified('password')){
+//         return next();
 //     }
-//     user.password =await bcrypt.hash(user.password,8)
+//     user.password = await bcrypt.hash(user.password,8)
 //     console.log(user.password);
 
 

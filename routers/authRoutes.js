@@ -6,6 +6,7 @@ const User = mongoose.model("User");
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
+
 router.post("/signup", (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -24,7 +25,7 @@ router.post("/signup", (req, res) => {
                     const token = jwt.sign({ _id: user._id }, process.env.JWT_secret_key);
                     res.send(token);
                 } catch (err) {
-                    res.send({ error: "failed to save " });
+                    res.send({ error: "failed to save :" });
                 }
 
             })
@@ -34,15 +35,17 @@ router.post("/signup", (req, res) => {
 
 router.post("/login", (req, res) => {
     const { email, password } = req.body;
+    
+
     if (!email || !password) {
         console.log(email,password);
-        return res.status(422).send({ err: "Invalid Cridential !!!" })
+        return res.status(401).send({ err: "Invalid Cridential !!!" })
     }
     const user = new User({ email, password });
     User.findOne({ email: email })
         .then((savedUser) => {
             if (!savedUser) {
-                return res.status(422).send({ err: "User Not Found !!!" })
+                return res.status(201).send({ err: "User Not Found !!!" })
             }
             try {
                 if (password === savedUser.password) {
@@ -50,7 +53,7 @@ router.post("/login", (req, res) => {
 
                 } else {
                     console.log("Password Doesn't Match");
-                    return res.status(422).send({ error: "Invalid Credentials" });
+                    return res.status(201).send({ error: "Invalid Credentials" });
 
                 }
 

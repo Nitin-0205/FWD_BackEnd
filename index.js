@@ -10,12 +10,22 @@ app.use(cors());
 
 require("./db");
 require("./model/user");
+require("./model/employee");
+require("./model/foodreq");
+
+
 const authrouter = require("./routers/authRoutes");
+const routerEmp = require("./routers/Emp");
+const reqRouter = require("./routers/reqRouter");
+
 app.use(bodyParser.json());
+
 app.use(authrouter)
+app.use(routerEmp)
+app.use(reqRouter)
 
 
-app.get("/login" ,(req,res)=>{
+app.get("/" ,(req,res)=>{
   console.log("index Function")
 })
 
