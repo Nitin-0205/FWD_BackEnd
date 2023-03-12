@@ -14,7 +14,11 @@ const EmpSchema = new mongoose.Schema({
     Contact:{
         type:Number,
         require:true
-    }
+    },
+    Address:{
+        type:String,
+        require:true
+    }, 
 })
 
 mongoose.model("Employee",EmpSchema);

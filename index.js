@@ -12,17 +12,22 @@ require("./db");
 require("./model/user");
 require("./model/employee");
 require("./model/foodreq");
+require("./model/citymodel");
+
 
 
 const authrouter = require("./routers/authRoutes");
 const routerEmp = require("./routers/Emp");
 const reqRouter = require("./routers/reqRouter");
+const cityRouter = require("./routers/City");
+
 
 app.use(bodyParser.json());
 
 app.use(authrouter)
 app.use(routerEmp)
 app.use(reqRouter)
+app.use(cityRouter)
 
 
 app.get("/" ,(req,res)=>{

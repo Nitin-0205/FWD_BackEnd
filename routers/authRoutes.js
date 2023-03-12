@@ -8,7 +8,14 @@ require('dotenv').config();
 
 
 router.post("/signup", (req, res) => {
-    const { email, password } = req.body;
+    const { email ,
+        name ,
+        contact ,
+        role ,
+        city ,
+        address ,
+        password } = req.body;
+    
     if (!email || !password) {
         res.status(422).send({ error: "invalid Credential" })
     } else {
@@ -18,7 +25,12 @@ router.post("/signup", (req, res) => {
                 if (savedUser) {
                     return res.send({ error: "User Already Exist !!!" })
                 }
-                var user = new User({ email, password });
+                var user = new User({ email, name ,
+                    contact ,
+                    role ,
+                    city ,
+                    address ,
+                    password });
                 try {
                     await user.save();
                     console.log("after save")
@@ -49,7 +61,8 @@ router.post("/login", (req, res) => {
             }
             try {
                 if (password === savedUser.password) {
-                    return res.status(200).send({ msg: "Login Sucessful"});
+                    const token = jwt.sign({ _id: user._id }, process.env.JWT_secret_key);
+                    return res.status(200).send({token : token,userId:savedUser_id,msg: "Login Sucessful"});
 
                 } else {
                     console.log("Password Doesn't Match");
