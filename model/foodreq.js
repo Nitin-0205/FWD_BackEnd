@@ -14,6 +14,14 @@ const foodReqSchema = new mongoose.Schema({
         type:String,
         required:true,
     },
+    Contact:{
+        type:String,
+        required:true,
+    },
+    Name:{
+        type:String,
+        required:true,
+    },
     UserId:{
         type:String,
         required:true,

@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 
 const EmpSchema = new mongoose.Schema({
+    OrgId:{
+        type:String,
+        require:true
+    },
     EmpId:{
         type:String,
         require:true
@@ -19,6 +23,11 @@ const EmpSchema = new mongoose.Schema({
         type:String,
         require:true
     }, 
+    Status:{
+        type:String,
+        required:true,
+        default:"A"
+    },
 })
 
 mongoose.model("Employee",EmpSchema);
