@@ -37,16 +37,18 @@ routerEmp.post("/addEmployee", (req, res) => {
 routerEmp.post("/Employees", (req, res) => {
     const { OrgId } = req.body;
     console.log(req.body)
-    Employee.find({ OrgId: OrgId })
-        .then(async (savedEmp) => {
-            console.log(savedEmp)
-                  if (!savedEmp) {
-                return res.status(201).send({ error: "No Employee" })
-            }
-            return res.status(200).send(savedEmp)
+    if (OrgId) {
+        Employee.find({ OrgId: OrgId })
+            .then(async (savedEmp) => {
+                console.log(savedEmp)
+                if (!savedEmp) {
+                    return res.status(201).send({ error: "No Employee" })
+                }
+                return res.status(200).send(savedEmp)
 
 
-        })
+            })
+    }
 
 })
 
@@ -54,32 +56,47 @@ routerEmp.post("/UpdEmployee", (req, res) => {
     const { EmpDetail, foodReqId } = req.body;
     console.log(req.body)
 
-    FoodRequest.findById({ _id: foodReqId })
-        .then(async (saveData) => {
-            if (!saveData) {
-                return res.status(201).send({ error: "Not Available" })
-            }
-            const result = FoodRequest.updateOne({ _id: foodReqId }, { $set: { Status: "NA", Employee: EmpDetail } })
-            if (result) {
-                console.log(FoodRequest.findById({ _id: foodReqId }))
-                return res.status(200).send(saveData)
-            } else {
-                return res.status(201).send({ error: "Failed to Assign Employee" })
-            }
-        })
-
-    Employee.find({ EmpId: EmpDetail._id })
+    Employee.find({ _id: EmpDetail._id })
         .then(async (savedEmp) => {
             if (!savedEmp) {
                 return res.status(201).send({ error: "Not Available" })
             }
-            const result = Employee.updateOne({ EmpId: EmpDetail.EmpId }, { $set: { Status: "NA" } })
-            if (result) {
-                return res.status(200).send(savedEmp)
-            } else {
-                return res.status(201).send({ error: "Failed to Assign Employee" })
-            }
+
+            Employee.updateOne({ _id: EmpDetail._id }, { $set: { Status: "NA" } }, (err, data) => {
+                if (err) {
+                    return res.status(201).send({ error: "Failed to Accept Request" })
+                } else {
+                    console.log(data);
+                    
+                    FoodRequest.findById({ _id: foodReqId })
+                        .then(async (saveData) => {
+                            if (!saveData) {
+                                Employee.updateOne({ _id: EmpDetail._id }, { $set: { Status: "A" } });
+                                return res.status(201).send({ error: "Not Available" })
+                            }
+                            console.log(saveData)
+                            FoodRequest.updateOne({ _id: foodReqId }, { $set: { Status: "Accept", AssignVolunteer: EmpDetail }},(err,data)=>{
+                                if (err) {
+                                    return res.status(201).send({ error: "Failed to Accept Request" })
+                                } else {
+                                    console.log(saveData)
+                                }
+                            })
+                            // if (result) {
+                            //     console.log(FoodRequest.findById({ _id: foodReqId }))
+                            //     return res.status(200).send(saveData)
+                            // } else {
+                            //     return res.status(201).send({ error: "Failed to Assign Employee" })
+                            // }
+                        })
+                }
+
+            })
         })
+
+
+
+
 
 })
 

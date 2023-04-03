@@ -26,30 +26,46 @@ reqRouter.post("/food",(req,res)=>{
 });
 
 reqRouter.post("/getfood",(req,res)=>{
-    const {userId,showOth} = req.body;
+    const {userId,showOth,role,status} = req.body;
     console.log(req.body)
-    if(showOth){
-        FoodRequest.find({UserId :{$ne :userId}})
-            .then(async (savedfood) => {
-                if (!savedfood) {
+    if(role == "NGO"){
+        if(showOth){
+            FoodRequest.find({UserId :{$ne :userId},Role :{$ne :"OTH"},Status :status})
+                .then(async (savedfood) => {
+                    if (!savedfood) {
+                        // console.log(savedfood.length);
+                        return res.status(201).send({ error: "No Food Request" })
+                    }
                     // console.log(savedfood.length);
-                    return res.status(201).send({ error: "No Food Request" })
-                }
-                // console.log(savedfood.length);
-                return res.status(200).send(savedfood)
-            })
-    }else{
-        FoodRequest.find({UserId :userId})
-            .then(async (savedfood) => {
-                if (!savedfood) {
+                    return res.status(200).send(savedfood)
+                })
+        }else{
+            FoodRequest.find({UserId :userId})
+                .then(async (savedfood) => {
+                    if (!savedfood) {
+    
+                        return res.status(201).send({ error: "No Food Request" })
+                    }
+                    // console.log(savedfood.length);
+                    return res.status(200).send(savedfood)
+    
+    
+                })
+        }
 
-                    return res.status(201).send({ error: "No Food Request" })
-                }
-                // console.log(savedfood.length);
-                return res.status(200).send(savedfood)
+    }else if(role == "OTH"){
+        FoodRequest.find({Role :role,Status :status})
+                .then(async (savedfood) => {
+                    if (!savedfood) {
+    
+                        return res.status(201).send({ error: "No Food Request" })
+                    }
+                    // console.log(savedfood.length);
+                    return res.status(200).send(savedfood)
+    
+    
+                })
 
-
-            })
     }
     
 

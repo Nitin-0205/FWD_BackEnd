@@ -58,6 +58,10 @@ const foodReqSchema = new mongoose.Schema({
         type:String,
         required:true,
     },
+    AssignVolunteer:{
+        type:Object,
+    },
+
 })
 
 mongoose.model("FoodRequest",foodReqSchema);

@@ -36,7 +36,7 @@ routerCity.get("/City",(req,res)=>{
                 if (!savedcity) {
                     return res.status(201).send({ error: "No City" })
                 }
-                // console.log(savedcity);
+                console.log(savedcity);
                 return res.status(200).send(savedcity)
             })
 
