@@ -40,7 +40,7 @@ reqRouter.post("/getfood",(req,res)=>{
                     return res.status(200).send(savedfood)
                 })
         }else{
-            FoodRequest.find({UserId :userId})
+            FoodRequest.find({UserId :userId,Status :status})
                 .then(async (savedfood) => {
                     if (!savedfood) {
     
@@ -53,14 +53,14 @@ reqRouter.post("/getfood",(req,res)=>{
                 })
         }
 
-    }else if(role == "OTH"){
+    }else if(role === "OTH"){
         FoodRequest.find({Role :role,Status :status})
                 .then(async (savedfood) => {
                     if (!savedfood) {
     
                         return res.status(201).send({ error: "No Food Request" })
                     }
-                    // console.log(savedfood.length);
+                    console.log("DATA",savedfood);
                     return res.status(200).send(savedfood)
     
     

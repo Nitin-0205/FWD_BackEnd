@@ -49,7 +49,7 @@ const foodReqSchema = new mongoose.Schema({
         required:true,
     },
     Date:{
-        default:date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+        default:date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
         type:String,
         required:true,
     },
