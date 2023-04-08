@@ -80,4 +80,13 @@ router.post("/login", (req, res) => {
             console.log(err)
         })
 })
+
+router.post("/ngos", (req, res) => {
+    User.findOne({ role:"NGO" })
+    .then((ngoDetail)=>{
+        console.log(ngoDetail)
+
+    })
+
+})
 module.exports = router;

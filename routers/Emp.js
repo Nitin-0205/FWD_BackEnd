@@ -22,7 +22,7 @@ routerEmp.post("/addEmployee", (req, res) => {
 
                 try {
                     await emp.save()
-                    return res.status(200).send({ msg: "Login Sucessful" });
+                    return res.status(200).send({ msg: "Employee Add Successful" });
                 } catch (err) {
                     console.log("Failed To Save employee detail")
 
