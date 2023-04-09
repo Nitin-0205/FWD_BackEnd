@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
         require:true,
     },
     address: {
-        type:String,
+        type:Object,
         require:true,
     },
     password: {

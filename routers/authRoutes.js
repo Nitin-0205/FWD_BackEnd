@@ -62,7 +62,9 @@ router.post("/login", (req, res) => {
             try {
                 if (password === savedUser.password) {
                     const token = jwt.sign({ _id: user._id }, process.env.JWT_secret_key);
-                    return res.status(200).send({token : token,userId:savedUser_id,msg: "Login Sucessful"});
+                    console.log(savedUser)
+                    return res.status(200).send(savedUser);
+                    // return res.status(200).send({token : token,userId:savedUser_id,msg: "Login Sucessful"});
 
                 } else {
                     console.log("Password Doesn't Match");
@@ -79,5 +81,19 @@ router.post("/login", (req, res) => {
         .catch((err) => {
             console.log(err)
         })
+})
+
+router.get("/ngos", (req, res) => {
+    User.find({ role: "NGO" })
+            .then(async (NgoList) => {
+                console.log(NgoList)
+                if (!NgoList) {
+                    return res.status(201).send({ error: "No NGO's" })
+                }
+                console.log(NgoList)
+                return res.status(200).send(NgoList)
+            })
+    
+
 })
 module.exports = router;

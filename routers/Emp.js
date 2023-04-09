@@ -45,8 +45,6 @@ routerEmp.post("/Employees", (req, res) => {
                     return res.status(201).send({ error: "No Employee" })
                 }
                 return res.status(200).send(savedEmp)
-
-
             })
     }
 
