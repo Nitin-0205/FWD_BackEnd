@@ -8,7 +8,9 @@ const foodReqSchema = new mongoose.Schema({
         required:true,
     },
     Address:{
-        type:String,
+        type:Object,
+        required:true,
+
     },
     City:{
         type:String,

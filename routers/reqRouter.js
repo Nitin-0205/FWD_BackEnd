@@ -6,7 +6,7 @@ const reqRouter = express();
 reqRouter.post("/food",(req,res)=>{
     console.log(req.body);
     const {Type,Feedcount, Address,City,Contact,UserId,Name,Role,Vehicle,Location} = req.body;
-    if(Type == "" ||Feedcount == ""||Address=="" || City == "" || Contact =="" || UserId == ""||Name =="",Role ==""||Vehicle =="" ||Location == ""){
+    if(Type == "" ||Feedcount == ""|| Address==[] || City == "" || Contact =="" || UserId == ""||Name =="",Role ==""||Vehicle =="" ||Location == []){
         return res.status(201).json({error:"Please Fill all The Fields !!!"})
     }
     const fooddetail = new FoodRequest({Feedcount,Address,City,Contact,UserId,Name ,Role,Vehicle,Type,Location});
