@@ -54,7 +54,7 @@ reqRouter.post("/getfood",(req,res)=>{
         }
 
     }else if(role === "OTH"){
-        FoodRequest.find({Role :role,Status :status})
+            FoodRequest.find({Role :role,Status :status})
                 .then(async (savedfood) => {
                     if (!savedfood) {
     
@@ -65,8 +65,9 @@ reqRouter.post("/getfood",(req,res)=>{
     
     
                 })
+        }
 
-    }
+    
     
 
 })

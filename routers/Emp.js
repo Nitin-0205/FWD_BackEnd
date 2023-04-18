@@ -92,10 +92,85 @@ routerEmp.post("/UpdEmployee", (req, res) => {
             })
         })
 
-
-
-
-
 })
+
+
+routerEmp.post("/cancel", (req, res) => {
+    const {foodReqId } = req.body;
+    console.log(req.body)
+
+    FoodRequest.findById({ _id: foodReqId })
+    .then(async (savedEmp) => {
+            if (!savedEmp) {
+                return res.status(201).send({ error: "Not Available" })
+            }
+            console.log(savedEmp.AssignVolunteer._id)
+            FoodRequest.updateOne({ _id: foodReqId }, { $set: { Status: "Pending", AssignVolunteer:null}},(err,data)=>{
+                if (err) {
+                    return res.status(201).send({ error: "Failed to Cancel Request" })
+                }else {
+                    Employee.updateOne({ EmpId: savedEmp.AssignVolunteer.EmpId }, { $set: { Status: "A" } }, (error, data) => {
+                        if (error) {
+                            return res.status(201).send({ error: "Failed to Cancel Request" })
+                        }else {
+                            return res.status(200).send({ msg: "Canceled Request" })
+                        }
+                    })
+
+                }
+            })
+
+            
+        })
+    })
+
+    routerEmp.post("/deliver", (req, res) => {
+        const {foodReqId } = req.body;
+
+        FoodRequest.findById({ _id: foodReqId })
+    .then(async (savedEmp) => {
+            if (!savedEmp) {
+                return res.status(201).send({ error: "Not Available" })
+            }
+            console.log(savedEmp.AssignVolunteer._id)
+            FoodRequest.updateOne({ _id: foodReqId }, { $set: { Status: "Delivered"}},(err,data)=>{
+                if (err) {
+                    return res.status(201).send({ error: "Failed to Delivered Request Try Again !!" })
+                }else {
+                    Employee.updateOne({ EmpId: savedEmp.AssignVolunteer.EmpId }, { $set: { Status: "A" } }, (error, data) => {
+                        if (error) {
+                            return res.status(201).send({ error: "Failed to Delivered Request Try Again !!" })
+                        }else {
+                            return res.status(200).send({ msg: "Delivery Received !!!" })
+                        }
+                    })
+
+                }
+            })
+
+            
+        })
+
+
+    })
+                    // FoodRequest.findById({ _id: foodReqId })
+                    //     .then(async (saveData) => {
+                    //         if (!saveData) {
+                    //             Employee.updateOne({ _id: EmpDetail._id }, { $set: { Status: "NA" } });
+                    //             return res.status(201).send({ error: "Not Available" })
+                    //         }
+                    //         console.log(saveData)
+                    //         FoodRequest.updateOne({ _id: foodReqId }, { $set: { Status: "Pending", AssignVolunteer: []}},(err,data)=>{
+                    //             if (err) {
+                    //                 return res.status(201).send({ error: "Failed to Cancel Request" })
+                    //             } else {
+                    //                 console.log(saveData)
+                    //             }
+                    //         })
+                    //     })
+                
+            
+
+
 
 module.exports = routerEmp;
